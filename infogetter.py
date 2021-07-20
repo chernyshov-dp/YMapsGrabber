@@ -2,7 +2,6 @@ import os
 import re
 import time
 
-from bs4 import BeautifulSoup
 
 OUT_FILE = "./OUTPUT.txt"
 
@@ -53,11 +52,16 @@ class InfoGetter(object):
 
     @staticmethod
     def get_opening_hours(soup_content):
-        pass
+        opening_hours = []
+        try:
+            for data in soup_content.find_all(
+                    "meta", {"itemprop": "openingHours"}
+            ):
+                opening_hours.append(data.get('content'))
 
-    @staticmethod
-    def get_ypage(soup_content):
-        pass
+            return opening_hours
+        except:
+            return ""
 
     @staticmethod
     def get_goods(soup_content):

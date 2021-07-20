@@ -41,11 +41,9 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
                 name = InfoGetter.get_name(soup)
                 address = InfoGetter.get_address(soup)
                 website = InfoGetter.get_website(soup)
-                driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[17]/div/div/div[1]/div[1]/div[1]/div/div['
-                                             '1]/div[3]/div/div/div[12]/div/div[3]/div/div/div/div[7]/div[6]/div['
-                                             '2]/div/div/div[1]/div[1]/div[2]') .click()
-                sleep(1)
-                print(name, address, website)
+                opening_hours = InfoGetter.get_opening_hours(soup)
+                ypage = driver.current_url
+                print(name, address, website, opening_hours, ypage)
                 driver.back()
                 driver.back()
 
