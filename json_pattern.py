@@ -1,19 +1,33 @@
-def something(name, address, website, opening_hours, ypage, goods, reviews):
+def into_json(id, name, address, website, opening_hours, ypage, goods, reviews):
+
+    opening_hours_new = []
+    days = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
+
+    # Проверка opening_hours на отсутствие одного их рабочих дней
+    # Создается отдельный список (opening_hours_new) с полученными значениями
+    # Далее он проверяется на отсутствие того или иного рабочего дня
+    # На индекс отсутствующего элемента вставляется значение  "   выходной"
+    for day in opening_hours:
+        opening_hours_new.append(day[:2].lower())
+    for i in days:
+        if i not in opening_hours_new:
+            opening_hours.insert(days.index(i), '   выходной')
+
     data_grabbed = {
+        "ID": id,
         "name": name,
         "address": address,
         "website": website,
-        "opening_hours": [
+        "opening_hours":
             {
-                "mon": opening_hours[0],
-                "tue": opening_hours[1],
-                "wed": opening_hours[2],
-                "thu": opening_hours[3],
-                "fri": opening_hours[4],
-                "sat": opening_hours[5],
-                "sun": opening_hours[6],
-            }
-        ],
+                "mon": opening_hours[0][3:],
+                "tue": opening_hours[1][3:],
+                "wed": opening_hours[2][3:],
+                "thu": opening_hours[3][3:],
+                "fri": opening_hours[4][3:],
+                "sat": opening_hours[5][3:],
+                "sun": opening_hours[6][3:] # <- "sun": opening_hours[6][3:], IndexError: list index out of range
+            },
         "ypage": ypage,
         "goods": goods,
         "reviews": reviews

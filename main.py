@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from time import sleep
+import json_pattern
 
 import AppUI
 from infogetter import InfoGetter
@@ -29,6 +30,7 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
         driver.find_element_by_class_name(name='search-form-view__input').send_keys(city + ' ' + type)
         driver.find_element_by_class_name(name='small-search-form-view__button').click()
         sleep(1)
+        id = 0
         try:
             for i in range(1, 26):
                 driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[9]/div/div[1]/div[1]/div[1]/div/div['
@@ -37,13 +39,21 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
                 driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[10]/div/div[1]/div[1]/div[1]/div/div['
                                              '1]/div/div/div[2]/div[2]/div[2]/h1/div[1]/a').click()
                 sleep(1)
-                soup = BeautifulSoup(driver.page_source, "lxml")
+                soup = BeautifulSoup(driver.page_source, "html.parser")
+                id += 1
                 name = InfoGetter.get_name(soup)
                 address = InfoGetter.get_address(soup)
                 website = InfoGetter.get_website(soup)
                 opening_hours = InfoGetter.get_opening_hours(soup)
                 ypage = driver.current_url
-                print(name, address, website, opening_hours, ypage)
+                menu = driver.find_element_by_class_name(name='card-feature-view__main-content')
+                menu_text = driver.find_element_by_class_name(name='card-feature-view__main-content').text
+                goods = ""
+                if ('товары' in menu_text.lower()) or ('услуги' in menu_text.lower()) or ('меню' in menu_text.lower()):
+                    menu.click()
+                    sleep(1)
+                    goods = InfoGetter.get_goods(soup)
+                print(json_pattern.into_json(id, name, address, website, opening_hours, ypage, goods, ''))
                 driver.back()
                 driver.back()
 
