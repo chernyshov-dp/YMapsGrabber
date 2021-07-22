@@ -1,3 +1,5 @@
+import json
+
 OUT_FILE = "./out/OUTPUT.json"
 
 
@@ -11,10 +13,9 @@ class JSONWorker(object):
         _selector[flag]()
 
     def get_jsonwork(self):
-        f = open(OUT_FILE, "w")
-        f.close()
+        with open(OUT_FILE, 'w', encoding='utf-8') as f:
+            json.dump(self.result, f, ensure_ascii=False, indent=4)
 
     def set_jsonwork(self):
-        f = open(OUT_FILE, "a")
-        f.write(self.result)
-        f.close()
+        with open(OUT_FILE, 'a', encoding='utf-8') as f:
+            json.dump(self.result, f, ensure_ascii=False, indent=4)

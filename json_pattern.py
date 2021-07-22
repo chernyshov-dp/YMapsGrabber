@@ -1,4 +1,4 @@
-def into_json(id, name, address, website, opening_hours, ypage, goods, reviews):
+def into_json(id, name, address, website, opening_hours, ypage, goods, rating, reviews):
 
     opening_hours_new = []
     days = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
@@ -26,10 +26,11 @@ def into_json(id, name, address, website, opening_hours, ypage, goods, reviews):
                 "thu": opening_hours[3][3:],
                 "fri": opening_hours[4][3:],
                 "sat": opening_hours[5][3:],
-                "sun": opening_hours[6][3:] # <- "sun": opening_hours[6][3:], IndexError: list index out of range
+                "sun": opening_hours[6][3:]
             },
         "ypage": ypage,
         "goods": goods,
+        "rating": rating,
         "reviews": reviews
 
     }

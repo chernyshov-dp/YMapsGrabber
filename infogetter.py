@@ -1,7 +1,3 @@
-import os
-import re
-import time
-
 from selenium.common.exceptions import NoSuchElementException
 
 OUT_FILE = "./OUTPUT.txt"
@@ -45,9 +41,7 @@ class InfoGetter(object):
         """ Получение сайта организации"""
 
         try:
-            for data in soup_content.find_all(
-                    "span", {"class": "business-urls-view__text"}
-            ):
+            for data in soup_content.find_all("span", {"class": "business-urls-view__text"}):
                 website = data.getText()
 
             return website
@@ -71,20 +65,53 @@ class InfoGetter(object):
     def get_goods(soup_content):
         """ Получение списка товаров и услуг"""
 
-        goods = []
+        dishes = []
+        prices = []
+
         try:
-            for data in soup_content.find_all("div", {"class": "related-item-list-view__title"}):
-                goods.append(data.getText())
+            # Получаем название блюда/товара/услуги (из меню-витрины)
+            for dish_s in soup_content.find_all("div", {"class": "related-item-photo-view__title"}):
+                dishes.append(dish_s.getText())
 
-            return goods
+            # Получаем цену блюда/товара/услуги (из меню-витрины)
+            for price_s in soup_content.find_all("span", {"class": "related-product-view__price"}):
+                prices.append(price_s.getText())
 
-        except NoSuchElementException:
+            # Получаем название блюда/товара/услуги (из меню-списка)
+            for dish_l in soup_content.find_all("div", {"class": "related-item-list-view__title"}):
+                dishes.append(dish_l.getText())
+
+            # Получаем цену блюда/товара/услуги (из меню-списка)
+            for price_l in soup_content.find_all("div", {"class": "related-item-list-view__price"}):
+                prices.append(price_l.getText())
+
+        # Если меню организации полностью представлено в виде списка
+        except NoSuchElementException: # <- Возможно баг со сдвигом цен возникает из-за этого блока
             try:
-                for data in soup_content.find_all("div", {"class": "related-item-photo-view__title"}):
-                    goods.append(data.getText())
-            except:
-                return ""
+                # Получаем название блюда/товара/услуги (из меню-списка)
+                for dish_l in soup_content.find_all("div", {"class": "related-item-list-view__title"}):
+                    dishes.append(dish_l.getText())
 
+                # Получаем цену блюда/товара/услуги (из меню-списка)
+                for price_l in soup_content.find_all("div", {"class": "related-item-list-view__price"}):
+                    prices.append(price_l.getText())
+            except:
+                pass
+
+        except:
+            return ""
+
+        return dict(zip(dishes, prices))
+
+    @staticmethod
+    def get_rating(soup_content):
+        """ Получение рейтинга организации"""
+
+        rating = ""
+        try:
+            for data in soup_content.find_all("span", {"class": "business-summary-rating-badge-view__rating-text"}):
+                rating += data.getText()
+            return rating
         except:
             return ""
 
