@@ -1,13 +1,11 @@
 import sys
-import os
 
-from PyQt6 import Qt
 from PyQt6 import QtWidgets
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 from time import sleep
-
 
 import AppUI
 import json_pattern
@@ -23,10 +21,21 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
         self.pushButton.clicked.connect(self.grab_data)
 
     def grab_data(self):
+
         city = self.textEdit_city.toPlainText()
         type = self.textEdit_type.toPlainText()
+        '''
+        chrome_options = webdriver.ChromeOptions
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--window-size=1420,1080")  <- Настройки для хрома
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-gpu")
+        '''
+
+        # Создаем OUTPUT.json
         util_module.JSONWorker("get", "")
 
+        # driver = webdriver.Chrome(chrome_options=chrome_options)
         driver = webdriver.Safari()
         driver.maximize_window()
         driver.get('https://yandex.ru/maps')
@@ -37,18 +46,26 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
         # Нажимаем на кнопку поиска
         driver.find_element_by_class_name(name='small-search-form-view__button').click()
         sleep(2)
+
+        slider = driver.find_element_by_class_name(name='scroll__scrollbar-thumb')
+        # Основная вкладка со списком всех организаций
+        parent_handle = driver.window_handles[0]
+
         id = 0
+        organizations_href = ""
         try:
-            for i in range(1, 26):
+            for i in range(250):
+                ActionChains(driver).click_and_hold(slider).move_by_offset(0, 100).release().perform()
 
                 # Нажимаем на организацию в общем поиске
-                driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[9]/div/div[1]/div[1]/div[1]/div/div['
-                                             f'1]/div/div/ul/div[{i}]').click()
-                sleep(1)
+                if (id == 0) or (id % 5 == 0):
+                    organizations_href = driver.find_elements_by_class_name(name='search-snippet-view__link-overlay')
+                organization_url = organizations_href[i].get_attribute("href")
 
-                # Нажимаем на карточку организации
-                driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[10]/div/div[1]/div[1]/div[1]/div/div['
-                                             '1]/div/div/div[2]/div[2]/div[2]/h1/div[1]/a').click()
+                # Открываем карточку организации в новой вкладке
+                driver.execute_script(f'window.open("{organization_url}","org_tab");')
+                child_handle = [x for x in driver.window_handles if x != parent_handle][0]
+                driver.switch_to.window(child_handle)
                 sleep(1)
 
                 soup = BeautifulSoup(driver.page_source, "lxml")
@@ -60,37 +77,45 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
                 ypage = driver.current_url
                 rating = InfoGetter.get_rating(soup)
 
-                menu = driver.find_element_by_class_name(name='card-feature-view__main-content')
-                menu_text = driver.find_element_by_class_name(name='card-feature-view__main-content').text
+                # Формирование ссылки на отзывы
+                current_url_split = ypage.split('/')
+
                 goods = ""
-                if ('товары и услуги' in menu_text.lower()) or ('меню' in menu_text.lower()):
-                    # Нажимаем на кнопку "Меню"/"Товары и услуги"
-                    menu.click()
-                    sleep(1)
-                    soup = BeautifulSoup(driver.page_source, "lxml")
-                    goods = InfoGetter.get_goods(soup)
+                try:
+                    menu = driver.find_element_by_class_name(name='card-feature-view__main-content')
+                    menu_text = driver.find_element_by_class_name(name='card-feature-view__main-content').text
 
-                #  Нажимаем на кнопку "Отзывы"
-                #driver.find_element_by_xpath('').click
-                sleep(1)
+                    if ('товары и услуги' in menu_text.lower()) or ('меню' in menu_text.lower()):
+                        # Нажимаем на кнопку "Меню"/"Товары и услуги"
+                        menu.click()
+                        sleep(2)
+                        soup = BeautifulSoup(driver.page_source, "lxml")
+                        goods = InfoGetter.get_goods(soup)
+                except NoSuchElementException:
+                    pass
 
-                # reviews = InfoGetter.get_reviews(soup)
+                #  Переходим на вкладку "Отзывы"
+                reviews_url = 'https://yandex.ru/maps/org/' + current_url_split[5] + '/' + current_url_split[6] + \
+                              '/reviews'
+                driver.get(reviews_url)
+                sleep(2)
 
-                # Записываем данные в
-                output = json_pattern.into_json(id, name, address, website, opening_hours, ypage, goods, rating, 'reviews')
+                reviews = InfoGetter.get_reviews(soup, driver)
+
+                # Записываем данные в OUTPUT.json
+                output = json_pattern.into_json(id, name, address, website, opening_hours, ypage, goods, rating,
+                                                reviews)
                 util_module.JSONWorker("set", output)
 
-                print(
-                    json_pattern.into_json(id, name, address, website, opening_hours, ypage, goods, rating, 'reviews'))
-                driver.back()
-                driver.back()
+                driver.close()
+                driver.switch_to.window(parent_handle)
+                sleep(1)
 
         except:
             pass
 
-        driver.quit()
-
         self.label.setText('Данные сохранены в OUTPUT.json')
+        driver.quit()
 
 
 def main():

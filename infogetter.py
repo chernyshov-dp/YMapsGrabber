@@ -1,12 +1,8 @@
-from selenium.common.exceptions import NoSuchElementException
+from bs4 import BeautifulSoup
+from selenium.common.exceptions import NoSuchElementException, MoveTargetOutOfBoundsException
+from selenium.webdriver import ActionChains
 
 OUT_FILE = "./OUTPUT.txt"
-
-
-def output_data(data):
-    f = open(OUT_FILE, 'a')
-    f.write(data)
-    f.close()
 
 
 class InfoGetter(object):
@@ -21,7 +17,7 @@ class InfoGetter(object):
                 name = data.getText()
 
             return name
-        except:
+        except Exception:
             return ""
 
     @staticmethod
@@ -29,11 +25,11 @@ class InfoGetter(object):
         """ Получение адреса организации """
 
         try:
-            for data in soup_content.find_all("div", {"class": "business-contacts-view__address-link"}):
+            for data in soup_content.find_all("a", {"class": "business-contacts-view__address-link"}):
                 address = data.getText()
 
             return address
-        except:
+        except Exception:
             return ""
 
     @staticmethod
@@ -45,7 +41,7 @@ class InfoGetter(object):
                 website = data.getText()
 
             return website
-        except:
+        except Exception:
             return ""
 
     @staticmethod
@@ -58,7 +54,7 @@ class InfoGetter(object):
                 opening_hours.append(data.get('content'))
 
             return opening_hours
-        except:
+        except Exception:
             return ""
 
     @staticmethod
@@ -86,7 +82,7 @@ class InfoGetter(object):
                 prices.append(price_l.getText())
 
         # Если меню организации полностью представлено в виде списка
-        except NoSuchElementException: # <- Возможно баг со сдвигом цен возникает из-за этого блока
+        except NoSuchElementException:
             try:
                 # Получаем название блюда/товара/услуги (из меню-списка)
                 for dish_l in soup_content.find_all("div", {"class": "related-item-list-view__title"}):
@@ -95,10 +91,10 @@ class InfoGetter(object):
                 # Получаем цену блюда/товара/услуги (из меню-списка)
                 for price_l in soup_content.find_all("div", {"class": "related-item-list-view__price"}):
                     prices.append(price_l.getText())
-            except:
+            except Exception:
                 pass
 
-        except:
+        except Exception:
             return ""
 
         return dict(zip(dishes, prices))
@@ -112,10 +108,42 @@ class InfoGetter(object):
             for data in soup_content.find_all("span", {"class": "business-summary-rating-badge-view__rating-text"}):
                 rating += data.getText()
             return rating
-        except:
+        except Exception:
             return ""
 
-
     @staticmethod
-    def get_reviews(soup_content):
-        pass
+    def get_reviews(soup_content, driver):
+        """ Получение отзывов о организации"""
+
+        reviews = []
+        slider = driver.find_element_by_class_name(name='scroll__scrollbar-thumb')
+
+        # Узнаём количество отзывов
+        reviews_count = soup_content.find("span", {"class": "business-header-rating-view__text "
+                                                            "_clickable"}).text
+        try:
+            reviews_count = int(reviews_count.split(' ')[0])
+
+        except ValueError:
+            return ""
+
+        if reviews_count > 150:
+            find_range = range(100)
+        else:
+            find_range = range(30)
+
+            for i in find_range:
+                try:
+                    ActionChains(driver).click_and_hold(slider).move_by_offset(0, 50).release().perform()
+
+                except MoveTargetOutOfBoundsException:
+                    break
+
+        try:
+            soup_content = BeautifulSoup(driver.page_source, "lxml")
+            for data in soup_content.find_all("div", {"class": "business-review-view__body-text _collapsed"}):
+                reviews.append(data.getText())
+
+            return reviews
+        except Exception:
+            return ""

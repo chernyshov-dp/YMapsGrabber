@@ -1,4 +1,5 @@
 beautifulsoup4==4.9.3
+lxml==4.6.3
 PyQt6==6.1.1
 PyQt6-Qt6==6.1.2
 PyQt6-sip==13.1.0
