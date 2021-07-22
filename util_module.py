@@ -4,6 +4,8 @@ OUT_FILE = "./out/OUTPUT.json"
 
 
 class JSONWorker(object):
+    """ Класс для работы с JSON файлом"""
+
     def __init__(self, flag, result):
         self.result = result
         _selector = {

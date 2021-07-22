@@ -55,9 +55,10 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
         organizations_href = ""
         try:
             for i in range(250):
+                # Симулируем прокрутку экрана на главной странице поиска
                 ActionChains(driver).click_and_hold(slider).move_by_offset(0, 100).release().perform()
 
-                # Нажимаем на организацию в общем поиске
+                # Подгружаем ссылки на организации каждые 5 итераций
                 if (id == 0) or (id % 5 == 0):
                     organizations_href = driver.find_elements_by_class_name(name='search-snippet-view__link-overlay')
                 organization_url = organizations_href[i].get_attribute("href")
@@ -107,6 +108,7 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
                                                 reviews)
                 util_module.JSONWorker("set", output)
 
+                # Закрываем вторичную вкладу и переходим на основную
                 driver.close()
                 driver.switch_to.window(parent_handle)
                 sleep(1)

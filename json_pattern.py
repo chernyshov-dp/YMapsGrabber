@@ -1,4 +1,5 @@
 def into_json(id, name, address, website, opening_hours, ypage, goods, rating, reviews):
+    """ Шаблон файла OUTPUT.json"""
 
     opening_hours_new = []
     days = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
