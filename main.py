@@ -36,7 +36,7 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
         util_module.JSONWorker("get", "")
 
         # driver = webdriver.Chrome(chrome_options=chrome_options)
-        driver = webdriver.Safari()
+        driver = webdriver.Safari() # <- Изменить на верхнюю строчку если используется хром
         driver.maximize_window()
         driver.get('https://yandex.ru/maps')
 
