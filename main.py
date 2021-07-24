@@ -24,19 +24,17 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
 
         city = self.textEdit_city.toPlainText()
         type = self.textEdit_type.toPlainText()
-        '''
-        chrome_options = webdriver.ChromeOptions
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--window-size=1420,1080")  <- Настройки для хрома
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--disable-gpu")
-        '''
+
+        #chrome_options = webdriver.ChromeOptions
+        #chrome_options.add_argument("--no-sandbox")
+        #chrome_options.add_argument("--window-size=1420,1080")
+        #chrome_options.add_argument("--headless")
+        #chrome_options.add_argument("--disable-gpu")
 
         # Создаем OUTPUT.json
         util_module.JSONWorker("get", "")
 
-        # driver = webdriver.Chrome(chrome_options=chrome_options)
-        driver = webdriver.Safari() # <- Изменить на верхнюю строчку если используется хром
+        driver = webdriver.Chrome()
         driver.maximize_window()
         driver.get('https://yandex.ru/maps')
 
