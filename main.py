@@ -1,30 +1,21 @@
-import sys
-
-from PyQt6 import QtWidgets
 from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 from time import sleep
 
-import AppUI
 import json_pattern
 import util_module
 from infogetter import InfoGetter
 
 
-class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
+class GrabberApp:
 
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        self.pushButton.clicked.connect(self.grab_data)
+    def __init__(self, city, type):
+        self.city = city
+        self.type = type
 
     def grab_data(self):
-
-        city = self.textEdit_city.toPlainText()
-        type = self.textEdit_type.toPlainText()
-
         #chrome_options = webdriver.ChromeOptions
         #chrome_options.add_argument("--no-sandbox")
         #chrome_options.add_argument("--window-size=1420,1080")
@@ -39,7 +30,7 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
         driver.get('https://yandex.ru/maps')
 
         # Вводим данные поиска
-        driver.find_element_by_class_name(name='search-form-view__input').send_keys(city + ' ' + type)
+        driver.find_element_by_class_name(name='search-form-view__input').send_keys(self.city + ' ' + self.type)
 
         # Нажимаем на кнопку поиска
         driver.find_element_by_class_name(name='small-search-form-view__button').click()
@@ -105,6 +96,7 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
                 output = json_pattern.into_json(id, name, address, website, opening_hours, ypage, goods, rating,
                                                 reviews)
                 util_module.JSONWorker("set", output)
+                print(f'Данные добавлены, id - {id}')
 
                 # Закрываем вторичную вкладу и переходим на основную
                 driver.close()
@@ -114,15 +106,15 @@ class GrabberApp(QtWidgets.QMainWindow, AppUI.Ui_MainWindow):
         except:
             pass
 
-        self.label.setText('Данные сохранены в OUTPUT.json')
+        print('Данные сохранены в OUTPUT.json')
         driver.quit()
 
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)
-    window = GrabberApp()
-    window.show()
-    app.exec()
+    city = input('Область поиска: ')
+    type = input('Тип организации: ')
+    grabber = GrabberApp(city, type)
+    grabber.grab_data()
 
 
 if __name__ == '__main__':
