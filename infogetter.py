@@ -132,12 +132,12 @@ class InfoGetter(object):
         else:
             find_range = range(30)
 
-            for i in find_range:
-                try:
-                    ActionChains(driver).click_and_hold(slider).move_by_offset(0, 50).release().perform()
+        for i in find_range:
+            try:
+                ActionChains(driver).click_and_hold(slider).move_by_offset(0, 50).release().perform()
 
-                except MoveTargetOutOfBoundsException:
-                    break
+            except MoveTargetOutOfBoundsException:
+                break
 
         try:
             soup_content = BeautifulSoup(driver.page_source, "lxml")
