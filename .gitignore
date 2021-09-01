@@ -1,3 +1,28 @@
-__pycache__
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# PyCharm configs
 .idea
+
+# Environments
+.env
+.venv
+env/
 venv/
+ENV/
+env.bak/
+venv.bak/
+
