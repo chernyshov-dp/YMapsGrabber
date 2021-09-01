@@ -1,6 +1,6 @@
 import json
 
-OUT_FILE = "./out/OUTPUT.json"
+OUT_FILE = "../out/OUTPUT.json"
 
 
 class JSONWorker(object):

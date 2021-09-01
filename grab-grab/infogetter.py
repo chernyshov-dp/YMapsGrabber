@@ -2,8 +2,6 @@ from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException, MoveTargetOutOfBoundsException
 from selenium.webdriver import ActionChains
 
-OUT_FILE = "./OUTPUT.txt"
-
 
 class InfoGetter(object):
     """ Класс с логикой парсинга данных из объекта BeautifulSoup"""
