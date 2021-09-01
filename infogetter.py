@@ -119,12 +119,16 @@ class InfoGetter(object):
         slider = driver.find_element_by_class_name(name='scroll__scrollbar-thumb')
 
         # Узнаём количество отзывов
-        reviews_count = soup_content.find("span", {"class": "business-header-rating-view__text "
-                                                            "_clickable"}).text
         try:
-            reviews_count = int(reviews_count.split(' ')[0])
+            reviews_count = int(soup_content.find_all("div", {"class": "tabs-select-view__counter"})[-1].text)
 
         except ValueError:
+            reviews_count = 0
+
+        except AttributeError:
+            reviews_count = 0
+
+        except Exception:
             return ""
 
         if reviews_count > 150:
