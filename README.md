@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchernyshov-dev%2FYMapsGrabber.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchernyshov-dev%2FYMapsGrabber?ref=badge_shield)
+
 <!-- Logo -->
 <p align="center">
     <a href="#">
@@ -15,3 +17,6 @@
 > Граббер для Яндекс.Карт, собирающий информацию об организациях в выбранной области поиска
 
 ---
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchernyshov-dev%2FYMapsGrabber.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fchernyshov-dev%2FYMapsGrabber?ref=badge_large)
