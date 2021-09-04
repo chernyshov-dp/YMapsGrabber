@@ -8,7 +8,21 @@
 <!-- Title -->
   <h1 align="center">🔍 YMapsGrabber 🗺</h1>
 
-<!-- Badges -->
+<!-- Classic badges -->
+<p align="center">
+    <a href="https://www.codefactor.io/repository/github/chernyshov-dev/ymapsgrabber">
+        <img src="https://www.codefactor.io/repository/github/chernyshov-dev/ymapsgrabber/badge" alt="CodeFactor"/>
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/github/license/chernyshov-dev/ymapsgrabber"/>
+    </a>
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fchernyshov-dev%2FYMapsGrabber?ref=badge_shield" alt="FOSSA Status">
+        <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchernyshov-dev%2FYMapsGrabber.svg?type=shield"/>
+    </a>
+    <a href="#">
+        <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/chernyshov-dev/ymapsgrabber">
+    </a>
+</p>
   
 ---
 
