@@ -6,7 +6,7 @@
   </p>
 
 <!-- Title -->
-  <h1 align="center">🔍 YMapsGrabber 🗺</h1>
+<h1 align="center">🔍 YMapsGrabber 🗺</h1>
 
 <!-- Classic badges -->
 <p align="center">
