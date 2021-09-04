@@ -20,10 +20,17 @@
         <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fchernyshov-dev%2FYMapsGrabber.svg?type=shield"/>
     </a>
     <a href="#">
-        <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/chernyshov-dev/ymapsgrabber">
+        <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/chernyshov-dev/ymapsgrabber"/>
     </a>
 </p>
-  
+
+<!-- Telegram -->
+<p align="center">
+  <a href="https://t.me/chaddydaddy">
+    <img src="https://img.shields.io/badge/Ask%20Me-Anything-1f425f.svg?style=popout-square&logo=telegram"/>
+  </a>
+</p>
+
 ---
 
 > Граббер для Яндекс.Карт, собирающий информацию об организациях в выбранной области поиска
