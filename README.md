@@ -56,6 +56,9 @@
 - beautifulsoup4 + lxml
 - json
 
+## Пример OUTPUT.json
+<p>Результат запроса "Москва ресторан" находится <a href="https://github.com/chernyshov-dev/YMapsGrabber/blob/main/example.json">тут</a></p>
+
 ## Установка и запуск
 ```console
 git clone https://github.com/chernyshov-dev/YMapsGrabber.git
