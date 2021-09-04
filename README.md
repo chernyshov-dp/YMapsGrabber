@@ -49,3 +49,17 @@
 > Граббер для Яндекс.Карт, собирающий информацию об организациях в выбранной области поиска
 
 ---
+
+## Стек
+- Python 3.9
+- Selenium + safaridriver
+- beautifulsoup4 + lxml
+- json
+
+## Установка и запуск
+```console
+git clone https://github.com/chernyshov-dev/YMapsGrabber.git
+cd YMapsGrabber/grab-grab
+pip3 install -r requirements.txt
+python3 main.p
+```
