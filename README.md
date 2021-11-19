@@ -76,3 +76,7 @@ cd YMapsGrabber/grab-grab
 pip3 install -r requirements.txt
 python3 main.py
 ```
+
+## Лицензия
+
+[GNU General Public License v3.0](https://github.com/chernyshov-dev/YMapsGrabber/blob/main/LICENSE)
