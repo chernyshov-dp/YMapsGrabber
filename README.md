@@ -67,7 +67,7 @@
 - Отзывы
 
 ## Пример OUTPUT.json
-<p>Результат запроса "Москва ресторан" находится <a href="https://github.com/chernyshov-dev/YMapsGrabber/blob/main/example.json">тут</a></p>
+<p>Результат запроса "Москва ресторан" находится <a href="https://github.com/chernyshov-dev/YMapsGrabber/blob/main/example.json">здесь</a></p>
 
 ## Установка и запуск
 ```console
