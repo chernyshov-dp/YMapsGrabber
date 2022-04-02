@@ -11,9 +11,9 @@ from infogetter import InfoGetter
 
 class GrabberApp:
 
-    def __init__(self, city, type):
+    def __init__(self, city, org_type):
         self.city = city
-        self.type = type
+        self.org_type = org_type
 
     def grab_data(self):
         # chrome_options = webdriver.ChromeOptions
@@ -30,7 +30,7 @@ class GrabberApp:
         driver.get('https://yandex.ru/maps')
 
         # Вводим данные поиска
-        driver.find_element_by_class_name(name='search-form-view__input').send_keys(self.city + ' ' + self.type)
+        driver.find_element_by_class_name(name='search-form-view__input').send_keys(self.city + ' ' + self.org_type)
 
         # Нажимаем на кнопку поиска
         driver.find_element_by_class_name(name='small-search-form-view__button').click()
@@ -112,8 +112,8 @@ class GrabberApp:
 
 def main():
     city = input('Область поиска: ')
-    type = input('Тип организации: ')
-    grabber = GrabberApp(city, type)
+    org_type = input('Тип организации: ')
+    grabber = GrabberApp(city, org_type)
     grabber.grab_data()
 
 
