@@ -1,4 +1,4 @@
-def into_json(id, name, address, website, opening_hours, ypage, goods, rating, reviews):
+def into_json(org_id, name, address, website, opening_hours, ypage, goods, rating, reviews):
     """ Шаблон файла OUTPUT.json"""
 
     opening_hours_new = []
@@ -15,7 +15,7 @@ def into_json(id, name, address, website, opening_hours, ypage, goods, rating, r
             opening_hours.insert(days.index(i), '   выходной')
 
     data_grabbed = {
-        "ID": id,
+        "ID": org_id,
         "name": name,
         "address": address,
         "website": website,
