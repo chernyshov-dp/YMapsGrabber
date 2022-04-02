@@ -40,7 +40,7 @@ class GrabberApp:
         # Основная вкладка со списком всех организаций
         parent_handle = driver.window_handles[0]
 
-        id = 0
+        org_id = 0
         organizations_href = ""
         try:
             for i in range(10000):
@@ -48,7 +48,7 @@ class GrabberApp:
                 ActionChains(driver).click_and_hold(slider).move_by_offset(0, 100).release().perform()
 
                 # Подгружаем ссылки на организации каждые 5 итераций
-                if (id == 0) or (id % 5 == 0):
+                if (org_id == 0) or (org_id % 5 == 0):
                     organizations_href = driver.find_elements_by_class_name(name='search-snippet-view__link-overlay')
                 organization_url = organizations_href[i].get_attribute("href")
 
@@ -59,7 +59,7 @@ class GrabberApp:
                 sleep(1)
 
                 soup = BeautifulSoup(driver.page_source, "lxml")
-                id += 1
+                org_id += 1
                 name = InfoGetter.get_name(soup)
                 address = InfoGetter.get_address(soup)
                 website = InfoGetter.get_website(soup)
@@ -93,10 +93,10 @@ class GrabberApp:
                 reviews = InfoGetter.get_reviews(soup, driver)
 
                 # Записываем данные в OUTPUT.json
-                output = json_pattern.into_json(id, name, address, website, opening_hours, ypage, goods, rating,
+                output = json_pattern.into_json(org_id, name, address, website, opening_hours, ypage, goods, rating,
                                                 reviews)
                 util_module.JSONWorker("set", output)
-                print(f'Данные добавлены, id - {id}')
+                print(f'Данные добавлены, id - {org_id}')
 
                 # Закрываем вторичную вкладу и переходим на основную
                 driver.close()
