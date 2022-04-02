@@ -103,7 +103,7 @@ class GrabberApp:
                 driver.switch_to.window(parent_handle)
                 sleep(1)
 
-        except:
+        except Exception:
             pass
 
         print('Данные сохранены в OUTPUT.json')
