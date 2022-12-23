@@ -4,7 +4,7 @@ def into_json(org_id, name, address, website, opening_hours, ypage, goods, ratin
     opening_hours_new = []
     days = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su']
 
-    # Проверка opening_hours на отсутствие одного их рабочих дней
+    # Проверка opening_hours на отсутствие одного из рабочих дней
     # Создается отдельный список (opening_hours_new) с полученными значениями
     # Далее он проверяется на отсутствие того или иного рабочего дня
     # На индекс отсутствующего элемента вставляется значение  "   выходной"
