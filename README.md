@@ -24,26 +24,6 @@
     </a>
 </p>
 
-<!-- Telegram -->
-<p align="center">
-  <a href="https://t.me/chaddydaddy">
-    <img src="https://img.shields.io/badge/Ask%20Me-Anything-1f425f.svg?style=popout-square&logo=telegram"/>
-  </a>
-</p>
-
-<!-- Big badges -->
-<p align="center">
-  <a href="#">
-        <img src="https://forthebadge.com/images/badges/contains-tasty-spaghetti-code.svg"/>
-        <img src="https://forthebadge.com/images/badges/powered-by-electricity.svg"/>
-        <img src="https://forthebadge.com/images/badges/uses-brains.svg"/>
-  </a>
-<p align="center">
-    <a href="#">
-        <img src="https://forthebadge.com/images/badges/works-on-my-machine.svg"/>
-    </a>
-</p>
-
 ---
 
 > Граббер для Яндекс.Карт, собирающий информацию об организациях в выбранной области поиска
